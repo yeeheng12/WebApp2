@@ -7,10 +7,11 @@
         {% for post in posts %}
             <div class="post" id="post-{{ post.id }}">
                 <p>{{ post.content }}</p>
+
                 <div class="actions">
                     <!-- Like button and like count -->
                     <button class="like-btn" data-post-id="{{ post.id }}">
-                        <i class="fa {{ 'fa-heart' if post.is_liking(current_user) else 'fa-heart-o' }}"></i>
+                        <i class="fa {% if current_user.is_liking(post) %} fa-heart {% else %} fa-heart-o {% endif %}"></i>
                     </button>
                     <span id="like-count-{{ post.id }}">{{ post.like_count() }}</span> likes
 
@@ -27,6 +28,7 @@
 {% endblock %}
 
 {% block scripts %}
+    <!-- Include JavaScript files for handling likes, comments, and saves -->
     <script src="{{ url_for('static', filename='js/like.js') }}"></script>
     <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/save.js') }}"></script>
