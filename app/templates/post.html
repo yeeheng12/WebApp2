@@ -1,1 +1,61 @@
+{% extends "base.html" %}
 
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Post Content -->
+            <div class="post">
+                <p>{{ post.content }}</p>
+                <p><small>Posted by {{ post.author.username }} on {{ post.date_posted.strftime('%Y-%m-%d') }}</small></p>
+
+                <!-- Like and Save Buttons -->
+                <div class="post-actions">
+                    <!-- Like Button -->
+                    <button class="like-btn {% if current_user.is_liking(post) %} liked {% endif %}" data-post-id="{{ post.id }}">
+                        <i class="fa {% if current_user.is_liking(post) %} fa-heart {% else %} fa-heart-o {% endif %}"></i> 
+                        <span id="like-count-{{ post.id }}">{{ post.likes | length }}</span> Likes
+                    </button>
+                    
+                    <!-- Save Button -->
+                    <button class="save-btn {% if current_user.is_saving(post) %} saved {% endif %}" data-post-id="{{ post.id }}">
+                        <i class="fa {% if current_user.is_saving(post) %} fa-bookmark {% else %} fa-bookmark-o {% endif %}"></i> Save
+                    </button>
+                </div>
+
+                <!-- Comments Section -->
+                <div id="comments-container">
+                    <h4>Comments</h4>
+                    {% for comment in post.comments %}
+                        <div class="comment">
+                            <strong>{{ comment.user.username }}</strong>
+                            <p>{{ comment.content }}</p>
+                            <small>{{ comment.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                        </div>
+                    {% else %}
+                        <p>No comments yet. Be the first to comment!</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar for Comments Form (on the side) -->
+        <div class="col-md-4">
+            <h5>Add a Comment</h5>
+            <form id="comment-form" data-post-id="{{ post.id }}">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.content(class="form-control", placeholder="Add a comment...") }}
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Link to the JavaScript files -->
+<script src="{{ url_for('static', filename='js/like.js') }}"></script>
+<script src="{{ url_for('static', filename='js/save.js') }}"></script>
+<script src="{{ url_for('static', filename='js/comment.js') }}"></script>
+
+{% endblock %}
