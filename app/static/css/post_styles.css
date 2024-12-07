@@ -17,28 +17,12 @@
     height: auto;
 }
 
-.post-actions button {
-    border-radius: 25px; /* Rounded buttons */
+/* Like and Save Button Styling */
+.like-btn, .save-btn {
+    padding: 6px 12px;
+    border-radius: 50px; /* Rounded buttons */
+    font-size: 14px;
 }
 
 /* Like Button */
-.like-btn .fa-heart, .save-btn .fa-bookmark {
-    color: #ed4956; /* Instagram's red color */
-}
-
-.liked .fa-heart, .saved .fa-bookmark {
-    color: #ed4956; /* Red color when liked or saved */
-}
-
-.post-actions .btn {
-    padding: 5px 10px;
-    font-size: 12px;
-}
-
-.post-actions .btn-sm {
-    font-size: 12px;
-}
-
-.post-actions i {
-    margin-right: 5px;
-}
+.like-btn .fa-heart, .
