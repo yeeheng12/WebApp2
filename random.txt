@@ -1,3 +1,17 @@
-UndefinedError
+(flask) [lnnx6136@feng-linux-07 WebApp2]$ flask db migrate -m "profile_pic"
+Error: While importing 'run', an ImportError was raised:
 
-jinja2.exceptions.UndefinedError: 'app.models.User object' has no attribute 'avatar'
+Traceback (most recent call last):
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/cli.py", line 245, in locate_app
+    __import__(module_name)
+  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/run.py", line 1, in <module>
+    from app import app
+  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/__init__.py", line 31, in <module>
+    from app import views, models
+  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/views.py", line 6, in <module>
+    from .forms import RegistrationForm, LoginForm, PostForm, EditProfileForm, SearchForm, CommentForm
+  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/forms.py", line 4, in <module>
+    from wtforms.file import FileField, FileRequired, FileAllowed
+ModuleNotFoundError: No module named 'wtforms.file'
+
+
