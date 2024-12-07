@@ -15,6 +15,10 @@ app.config['DEFAULT_AVATAR_FOLDER'] = 'static/images/default'
 app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'jpeg', 'png'}
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Max file size (16MB)
 
+# Ensure the upload folder exists
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
+
 # Helper function to check allowed file extensions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
@@ -92,7 +96,7 @@ def edit_profile():
         avatar = form.avatar.data
         if avatar and allowed_file(avatar.filename):
             filename = secure_filename(avatar.filename)
-            avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  # Save the image
             current_user.avatar = filename  # Update avatar path
 
         # Update the user's information
@@ -250,7 +254,4 @@ def view_post(post_id):
         )
         db.session.add(comment)
         db.session.commit()
-        return redirect(url_for('view_post', post_id=post_id))
-
-    return render_template('post.html', post=post, form=form)
-
+        return redirect(url_for('view_post', post_id
