@@ -1,0 +1,44 @@
+/* Post Card Styling */
+.card {
+    border: none;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for the card */
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card img {
+    border-radius: 10px;
+    max-width: 100%;
+    height: auto;
+}
+
+.post-actions button {
+    border-radius: 25px; /* Rounded buttons */
+}
+
+/* Like Button */
+.like-btn .fa-heart, .save-btn .fa-bookmark {
+    color: #ed4956; /* Instagram's red color */
+}
+
+.liked .fa-heart, .saved .fa-bookmark {
+    color: #ed4956; /* Red color when liked or saved */
+}
+
+.post-actions .btn {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+.post-actions .btn-sm {
+    font-size: 12px;
+}
+
+.post-actions i {
+    margin-right: 5px;
+}
