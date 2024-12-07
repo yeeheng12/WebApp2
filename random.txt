@@ -1,4 +1,4 @@
-(flask) [lnnx6136@feng-linux-07 WebApp2]$ flask db migrate -m "forms"
+(flask) [lnnx6136@feng-linux-07 WebApp2]$ flask db migrate -m "pic"
 Error: While importing 'run', an ImportError was raised:
 
 Traceback (most recent call last):
@@ -10,14 +10,11 @@ Traceback (most recent call last):
     from app import views, models
   File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/views.py", line 6, in <module>
     from .forms import RegistrationForm, LoginForm, PostForm, EditProfileForm, SearchForm, CommentForm
-  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/forms.py", line 4, in <module>
-    from wtforms.fields import FileAllowed  # Importing FileAllowed from fields
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-ImportError: cannot import name 'FileAllowed' from 'wtforms.fields' (/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/wtforms/fields/__init__.py)
+  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/forms.py", line 3, in <module>
+    from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Regexp, FileAllowed
+ImportError: cannot import name 'FileAllowed' from 'wtforms.validators' (/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/wtforms/validators.py)
 
 
-Usage: flask [OPTIONS] COMMAND [ARGS]...
-Try 'flask --help' for help.
 
 
 
