@@ -33,9 +33,12 @@ class EditProfileForm(FlaskForm):
     description = TextAreaField('Description', validators=[Length(max=200)])
     password = PasswordField('New Password (optional)', validators=[Length(min=6), EqualTo('confirm_password', message="Passwords must match.")])
     confirm_password = PasswordField('Confirm New Password')
+    
+    # Avatar upload for profile image
     avatar = FileField('Avatar Image', validators=[
         FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')  # Restrict file types for avatar images
     ])
+    
     submit = SubmitField('Update Profile')
 
     def validate_username(self, username):
