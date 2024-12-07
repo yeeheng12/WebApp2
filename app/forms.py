@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Regexp
-from wtforms.file import FileField, FileRequired, FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, FileField
+from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Regexp, FileRequired, FileAllowed
 from .models import User
 
 class RegistrationForm(FlaskForm):
@@ -33,7 +32,7 @@ class EditProfileForm(FlaskForm):
     description = TextAreaField('Description', validators=[Length(max=200)])
     password = PasswordField('New Password (optional)', validators=[Length(min=6), EqualTo('confirm_password', message="Passwords must match.")])
     confirm_password = PasswordField('Confirm New Password')
-    
+
     # Avatar upload for profile image
     avatar = FileField('Avatar Image', validators=[
         FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')  # Restrict file types for avatar images
