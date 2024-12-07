@@ -77,7 +77,8 @@
         {% if current_user.is_authenticated %}
         <li class="nav-item offcanvas-nav-item">
           <a class="nav-link text-white" href="{{ url_for('profile', username=current_user.username) }}">
-            <img src="{{ current_user.get_avatar() }}" class="rounded-circle" width="30" height="30" alt="{{ current_user.username }}">
+            <!-- User Avatar -->
+            <img src="{{ current_user.get_avatar() }}" class="rounded-circle" width="30" height="30" alt="{{ current_user.username }}'s Avatar">
             Profile
           </a>
         </li>
