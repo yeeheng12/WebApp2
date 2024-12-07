@@ -14,7 +14,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     description = db.Column(db.String(200), nullable=True)  # Profile description
-    avatar = db.Column(db.String(120), nullable=True, default='default_avatar.jpg')  # Default avatar
+    avatar = db.Column(db.String(120), nullable=True, default='default_profile.png')  # Default avatar
 
     posts = db.relationship('Post', backref='author', lazy=True, cascade="all, delete-orphan")
     followers = db.relationship(
@@ -75,7 +75,7 @@ class User(db.Model, UserMixin):
 
     def get_avatar(self):
         """Return the path to the avatar image (user-uploaded or default)."""
-        if self.avatar and self.avatar != 'default_avatar.jpg':
+        if self.avatar and self.avatar != 'default_profile.png':
             return url_for('static', filename=f'images/uploads/{self.avatar}')
         else:
             return url_for('static', filename=f'images/default/{self.avatar}')
@@ -154,3 +154,4 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)  # Added index
 
     user = db.relationship('User', backref='comments', lazy=True)
+
