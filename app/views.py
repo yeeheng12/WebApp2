@@ -1,3 +1,5 @@
+import os
+from werkzeug.utils import secure_filename
 from flask import render_template, redirect, url_for, flash, request, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -6,6 +8,16 @@ from .models import User, Post, Comment, Like, Save
 from . import db
 from app import app
 from datetime import datetime
+
+# Set the upload folder paths for user avatars and post images
+app.config['UPLOAD_FOLDER'] = 'static/images/uploads'
+app.config['DEFAULT_AVATAR_FOLDER'] = 'static/images/default'
+app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'jpeg', 'png'}
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Max file size (16MB)
+
+# Helper function to check allowed file extensions
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -38,16 +50,6 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
-
-@app.route('/')
-@login_required
-def home():
-    followed_posts = Post.query.filter(
-        (Post.user_id == current_user.id) |
-        (Post.user_id.in_([u.id for u in current_user.following]))
-    ).order_by(Post.date_posted.desc()).all()
-
-    return render_template('index.html', posts=followed_posts, current_user=current_user)
 
 @app.route('/profile/<username>')
 @login_required
@@ -86,6 +88,13 @@ def edit_profile():
         if form.password.data:
             current_user.password_hash = generate_password_hash(form.password.data)
 
+        # Handle avatar upload
+        avatar = form.avatar.data
+        if avatar and allowed_file(avatar.filename):
+            filename = secure_filename(avatar.filename)
+            avatar.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            current_user.avatar = filename  # Update avatar path
+
         # Update the user's information
         current_user.username = form.username.data
         current_user.description = form.description.data
@@ -101,20 +110,23 @@ def edit_profile():
 def create_post():
     form = PostForm()
     if form.validate_on_submit():
-        # Proceed to create the post
-        new_post = Post(
-            content=form.content.data,
-            author=current_user
-        )
+        content = form.content.data
+        image = form.image.data
+
+        # Handle image upload for the post
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  # Save the image
+        else:
+            filename = None  # No image uploaded
+
+        # Create a new post
+        new_post = Post(content=content, author=current_user, image=filename)
         new_post.set_tags()  # Extract and store hashtags
         db.session.add(new_post)
         db.session.commit()
         flash('Your post has been created!', 'success')
         return redirect(url_for('home'))
-    
-    # Debugging: Print form errors if validation fails
-    if form.errors:
-        print("Form Errors:", form.errors)
 
     return render_template('create_post.html', form=form)
 
@@ -140,7 +152,7 @@ def follow_toggle(user_id):
         'followers_count': user.followers.count(),
         'following_count': user.following.count()
     })
-    
+
 @app.route('/search', methods=['GET'])
 @login_required
 def search():
@@ -160,7 +172,7 @@ def search():
         ).all()
 
     return render_template('search.html', query=query, users=users, posts=posts, form=form)
-    
+
 @app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
 def like_post(post_id):
