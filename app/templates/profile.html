@@ -3,12 +3,26 @@
 {% block content %}
     <div class="container">
         <h2>{{ user.username }}'s Profile</h2>
+
+        <!-- Display user avatar -->
+        <div class="profile-avatar">
+            <img src="{{ user.get_avatar() }}" alt="{{ user.username }}'s Avatar" class="img-thumbnail" width="150" height="150">
+        </div>
+
         <p>{{ user.description }}</p>
 
         <h3>Posts</h3>
         {% for post in posts %}
             <div class="post" id="post-{{ post.id }}">
                 <p>{{ post.content }}</p>
+
+                <!-- Display post image if it exists -->
+                {% if post.get_image() %}
+                    <div class="post-image">
+                        <img src="{{ post.get_image() }}" alt="Post Image" class="img-fluid">
+                    </div>
+                {% endif %}
+
                 <div class="actions">
                     <!-- Like button and like count -->
                     <button class="like-btn" data-post-id="{{ post.id }}">
