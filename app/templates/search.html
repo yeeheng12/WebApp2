@@ -1,1 +1,41 @@
+{% extends "base.html" %}
 
+{% block content %}
+<div class="container mt-4">
+    <h1>Search Results</h1>
+    <p>Search query: <strong>{{ query }}</strong></p>
+    
+    {% if users %}
+    <h2>Users</h2>
+    <ul class="list-group">
+        {% for user in users %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{{ url_for('profile', username=user.username) }}">{{ user.username }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No users found matching "{{ query }}".</p>
+    {% endif %}
+    
+    {% if posts %}
+    <h2>Posts</h2>
+    <ul class="list-group">
+        {% for post in posts %}
+        <li class="list-group-item">
+            <div>
+                <a href="{{ url_for('profile', username=post.author.username) }}">
+                    <strong>{{ post.author.username }}</strong>
+                </a>
+                <p>{{ post.content }}</p>
+                <small>Posted on {{ post.date_posted.strftime('%Y-%m-%d %H:%M') }}</small>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No posts or hashtags found matching "{{ query }}".</p>
+    {% endif %}
+</div>
+
+{% endblock %}
