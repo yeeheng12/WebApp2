@@ -1,4 +1,3 @@
-
 UndefinedError
 
-jinja2.exceptions.UndefinedError: 'app.models.Post object' has no attribute 'is_liking'
+jinja2.exceptions.UndefinedError: 'app.models.User object' has no attribute 'avatar'
