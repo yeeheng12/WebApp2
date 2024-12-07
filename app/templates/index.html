@@ -1,52 +1,33 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block content %}
-<div class="container mt-4">
-  {% if posts %}
-    {% for post in posts %}
-    <div class="card mb-3">
-      <div class="card-body">
-        <!-- User Information -->
-        <div class="d-flex justify-content-between">
-          <div>
-            <a href="{{ url_for('profile', username=post.author.username) }}">
-              <strong>{{ post.author.username }}</strong>
-            </a>
-            <p><small>Posted on {{ post.date_posted.strftime('%Y-%m-%d') }}</small></p>
-          </div>
-        </div>
+    <div class="container">
+        <h2>Home</h2>
 
-        <!-- Post Content -->
-        <p class="mt-2">{{ post.content }}</p>
+        {% for post in posts %}
+            <div class="post" id="post-{{ post.id }}">
+                <p>{{ post.content }}</p>
+                <div class="actions">
+                    <!-- Like button and like count -->
+                    <button class="like-btn" data-post-id="{{ post.id }}">
+                        <i class="fa {{ 'fa-heart' if post.is_liking(current_user) else 'fa-heart-o' }}"></i>
+                    </button>
+                    <span id="like-count-{{ post.id }}">{{ post.like_count() }}</span> likes
 
-        <!-- Post Actions -->
-        <div class="post-actions d-flex justify-content-between">
-          <!-- Like Button -->
-          <button class="like-btn btn btn-outline-danger btn-sm {% if current_user.is_liking(post) %} liked {% endif %}" data-post-id="{{ post.id }}">
-            <i class="fa {% if current_user.is_liking(post) %} fa-heart {% else %} fa-heart-o {% endif %}"></i>
-            <span id="like-count-{{ post.id }}">{{ post.likes | length }}</span>
-          </button>
+                    <!-- Comment button and comment count -->
+                    <button class="comment-btn" data-post-id="{{ post.id }}">Comment</button>
+                    <span id="comment-count-{{ post.id }}">{{ post.comment_count() }}</span> comments
 
-          <!-- Save Button -->
-          <button class="save-btn btn btn-outline-secondary btn-sm {% if current_user.is_saving(post) %} saved {% endif %}" data-post-id="{{ post.id }}">
-            <i class="fa {% if current_user.is_saving(post) %} fa-bookmark {% else %} fa-bookmark-o {% endif %}"></i>
-          </button>
-
-          <!-- View Post / Comments Button -->
-          <a href="{{ url_for('view_post', post_id=post.id) }}" class="btn btn-outline-primary btn-sm">
-            <i class="fa fa-comment"></i> View & Comment
-          </a>
-        </div>
-      </div>
+                    <!-- View comments link -->
+                    <a href="{{ url_for('view_post', post_id=post.id) }}">View Comments</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-  {% else %}
-    <p>No posts to display. Start following users to see their posts here!</p>
-  {% endif %}
-</div>
+{% endblock %}
 
-<!-- Include necessary JavaScript files -->
-<script src="{{ url_for('static', filename='js/like.js') }}"></script>
-<script src="{{ url_for('static', filename='js/save.js') }}"></script>
-
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/like.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/save.js') }}"></script>
 {% endblock %}
