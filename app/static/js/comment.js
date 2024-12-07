@@ -21,7 +21,10 @@ $('#comment-form').on('submit', function(event) {
                     <small>${response.timestamp}</small>
                 </div>`
             );
-            form.find('textarea[name="content"]').val('');
+            form.find('textarea[name="content"]').val(''); // Clear input field
+
+            // Update the comment count on the page
+            $('#comment-count-' + postId).text(response.comment_count);  // Update the comment count
         },
         error: function(error) {
             console.error("Error posting comment: ", error);
