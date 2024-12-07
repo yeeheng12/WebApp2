@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
 from datetime import datetime
 import re
+from flask import url_for
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -13,6 +14,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     description = db.Column(db.String(200), nullable=True)  # Profile description
+    avatar = db.Column(db.String(120), nullable=True, default='default_avatar.jpg')  # Default avatar
+
     posts = db.relationship('Post', backref='author', lazy=True, cascade="all, delete-orphan")
     followers = db.relationship(
         'User', secondary='follow',
@@ -46,7 +49,7 @@ class User(db.Model, UserMixin):
     def follower_count(self):
         """Count of followers."""
         return Follow.query.filter_by(followed_id=self.id).count()
-        
+
     def post_count(self):
         """Returns the number of posts created by the user."""
         return Post.query.filter_by(user_id=self.id).count()
@@ -70,17 +73,25 @@ class User(db.Model, UserMixin):
             raise ValueError(f"Unknown interaction type: {interaction_type}")
         return model.query.filter_by(user_id=self.id, post_id=post.id).first() is not None
 
+    def get_avatar(self):
+        """Return the path to the avatar image (user-uploaded or default)."""
+        if self.avatar and self.avatar != 'default_avatar.jpg':
+            return url_for('static', filename=f'images/uploads/{self.avatar}')
+        else:
+            return url_for('static', filename=f'images/default/{self.avatar}')
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tags = db.Column(db.String(255), nullable=True)  # Store hashtags as a comma-separated string
+    image = db.Column(db.String(120), nullable=True)  # Store image filename for post image
 
-    # Explicit relationships for likes and saves
+    # Explicit relationships for likes, saves, and comments
     liked_by = db.relationship('Like', backref='post', lazy='dynamic')
     saved_by = db.relationship('Save', backref='post', lazy='dynamic')
-    comments = db.relationship('Comment', backref='post', lazy='dynamic')  # Added relationship
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def set_tags(self):
         """Extract hashtags from the content and store them in the tags field."""
@@ -105,6 +116,12 @@ class Post(db.Model):
     def comment_count(self):
         """Return the number of comments on this post."""
         return self.comments.count()
+
+    def get_image(self):
+        """Return the path to the post image."""
+        if self.image:
+            return url_for('static', filename=f'images/uploads/{self.image}')
+        return None  # No image available for the post
 
 class Follow(db.Model):
     follower_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
