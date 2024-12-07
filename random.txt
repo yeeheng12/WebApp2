@@ -1,1 +1,4 @@
 
+UndefinedError
+
+jinja2.exceptions.UndefinedError: 'app.models.Post object' has no attribute 'is_liking'
