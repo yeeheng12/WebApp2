@@ -1,4 +1,4 @@
-(flask) [lnnx6136@feng-linux-07 WebApp2]$ flask db upgrade
+(flask) [lnnx6136@feng-linux-07 WebApp2]$ flask db migrate -m "profile_pic"
 Error: While importing 'run', an ImportError was raised:
 
 Traceback (most recent call last):
@@ -11,14 +11,12 @@ Traceback (most recent call last):
   File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/views.py", line 6, in <module>
     from .forms import RegistrationForm, LoginForm, PostForm, EditProfileForm, SearchForm, CommentForm
   File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/forms.py", line 3, in <module>
-    from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Regexp, FileRequired, FileAllowed
-ImportError: cannot import name 'FileRequired' from 'wtforms.validators' (/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/wtforms/validators.py)
+    from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Regexp, FileAllowed
+ImportError: cannot import name 'FileAllowed' from 'wtforms.validators' (/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/wtforms/validators.py)
 
 
 Usage: flask [OPTIONS] COMMAND [ARGS]...
 Try 'flask --help' for help.
-
-Error: No such command 'db'.
 
 
 
