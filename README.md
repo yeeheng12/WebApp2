@@ -9,6 +9,8 @@
 ---------like.js
 ---------comment.js
 ---------save.js
+------css
+---------post_styles.css
 ---templates
 ------base.html
 ------login.html
