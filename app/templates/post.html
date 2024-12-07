@@ -77,3 +77,9 @@
   <!-- Link to the Post-specific Styles (only for pages that need it) -->
   <link href="{{ url_for('static', filename='css/post_styles.css') }}" rel="stylesheet">
 {% endblock %}
+
+{% block scripts %}
+  <!-- Include JavaScript files for handling likes, comments, and saves -->
+  <script src="{{ url_for('static', filename='js/like.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/save.js') }}"></script>
+{% endblock %}
