@@ -15,7 +15,8 @@ $(document).ready(function() {
                 } else {
                     likeButton.removeClass('liked').find('i').removeClass('fa-heart').addClass('fa-heart-o');
                 }
-                $('#like-count-' + postId).text(response.like_count);
+                // Update like count on the page
+                $('#like-count-' + postId).text(response.like_count);  // Update the like count
             },
             error: function(error) {
                 console.error("Error in liking post: ", error);
