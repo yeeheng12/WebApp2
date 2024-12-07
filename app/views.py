@@ -253,3 +253,4 @@ def view_post(post_id):
         return redirect(url_for('view_post', post_id=post_id))
 
     return render_template('post.html', post=post, form=form)
+
