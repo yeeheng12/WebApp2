@@ -9,8 +9,8 @@
             <div class="card-body p-3">
                 <!-- User Information (Profile Picture and Username) -->
                 <div class="d-flex align-items-center mb-3">
-                    <img src="{{ url_for('static', filename='images/' + post.author.avatar) }}" 
-                        class="rounded-circle" width="40" height="40" alt="{{ post.author.username }}">
+                    <img src="{{ post.author.get_avatar() }}" 
+                        class="rounded-circle" width="40" height="40" alt="{{ post.author.username }}'s Avatar">
                     <a href="{{ url_for('profile', username=post.author.username) }}" class="ms-2 text-dark">
                         <strong>{{ post.author.username }}</strong>
                     </a>
@@ -21,8 +21,8 @@
                 <p class="card-text">{{ post.content }}</p>
 
                 <!-- Post Image (Optional) -->
-                {% if post.image %}
-                    <img src="{{ url_for('static', filename='images/' + post.image) }}" class="img-fluid" alt="Post Image">
+                {% if post.get_image() %}
+                    <img src="{{ post.get_image() }}" class="img-fluid" alt="Post Image">
                 {% endif %}
 
                 <!-- Post Actions -->
