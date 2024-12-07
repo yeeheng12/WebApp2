@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, FileField
-from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Regexp, FileRequired, FileAllowed
+from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Regexp, FileAllowed
 from .models import User
 
 class RegistrationForm(FlaskForm):
@@ -57,3 +57,4 @@ class SearchForm(FlaskForm):
 class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Post Comment')
+
