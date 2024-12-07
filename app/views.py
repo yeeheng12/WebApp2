@@ -165,66 +165,63 @@ def search():
 @login_required
 def like_post(post_id):
     post = Post.query.get_or_404(post_id)
-    # Check if the user has already liked this post
-    existing_like = Like.query.filter_by(post_id=post.id, user_id=current_user.id).first()
+    like = Like.query.filter_by(post_id=post.id, user_id=current_user.id).first()
 
-    if existing_like:
-        # If the user has already liked the post, remove the like (unlike)
-        db.session.delete(existing_like)
-        db.session.commit()
+    if like:
+        db.session.delete(like)
         liked = False
     else:
-        # Otherwise, add the like
-        like = Like(post_id=post.id, user_id=current_user.id)
-        db.session.add(like)
-        db.session.commit()
+        db.session.add(Like(post_id=post.id, user_id=current_user.id))
         liked = True
 
-    # Get the updated like count
+    db.session.commit()
+
+    # Get updated like count
     like_count = post.like_count()
 
     return jsonify({
         'liked': liked,
-        'like_count': like_count
+        'like_count': like_count  # Return the updated like count
     })
 
 @app.route('/save_toggle/<int:post_id>', methods=['POST'])
 @login_required
 def save_toggle(post_id):
     post = Post.query.get_or_404(post_id)
-    # Check if the post is already saved
-    save = Save.query.filter_by(post_id=post_id, user_id=current_user.id).first()
+    save = Save.query.filter_by(post_id=post.id, user_id=current_user.id).first()
 
     if save:
-        # Remove saved post
         db.session.delete(save)
         saved = False
     else:
-        # Save the post
-        save = Save(post_id=post_id, user_id=current_user.id)
-        db.session.add(save)
+        db.session.add(Save(post_id=post.id, user_id=current_user.id))
         saved = True
 
     db.session.commit()
-    
-    return jsonify({
-        'saved': saved
-    })
+
+    return jsonify({'saved': saved})
 
 @app.route('/add_comment/<int:post_id>', methods=['POST'])
 @login_required
 def add_comment(post_id):
-    content = request.json.get('content')
     post = Post.query.get_or_404(post_id)
+    content = request.json.get('content')
+    if not content:
+        return jsonify({'error': 'Content cannot be empty.'}), 400
+
+    # Add the comment to the post
     comment = Comment(content=content, user=current_user, post=post)
     db.session.add(comment)
     db.session.commit()
 
+    # Get updated comment count
+    comment_count = post.comment_count()
+
     return jsonify({
         'user': current_user.username,
-        'content': content,
+        'content': comment.content,
         'timestamp': comment.timestamp.strftime('%Y-%m-%d %H:%M'),
-        'comment_count': len(post.comments)
+        'comment_count': comment_count  # Return the updated comment count
     })
 
 @app.route('/view_post/<int:post_id>', methods=['GET', 'POST'])
