@@ -35,11 +35,6 @@
                 <button class="btn btn-light btn-sm save-btn" data-post-id="{{ post.id }}">
                     <i class="fa {% if current_user.is_saving(post) %} fa-bookmark {% else %} fa-bookmark-o {% endif %}"></i> Save
                 </button>
-
-                <!-- Comment Button (Triggers Modal) -->
-                <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#commentModal-{{ post.id }}">
-                    <i class="fa fa-comment"></i> Comment
-                </button>
             </div>
         </div>
     </div>
@@ -63,10 +58,10 @@
                     </div>
 
                     <!-- Comments List -->
-                    <div class="comments-section">
+                    <div class="comments-section" id="comments-container-{{ post.id }}">
                         {% if post.comments %}
-                            {% for comment in post.comments %}
-                                <div class="d-flex mb-3">
+                            {% for comment in post.comments[:5] %} <!-- Initially load 5 comments -->
+                                <div class="d-flex mb-3 comment" data-comment-id="{{ comment.id }}">
                                     <img src="{{ comment.user.get_avatar() }}" class="rounded-circle me-3" width="40" height="40" alt="User Avatar">
                                     <div>
                                         <strong>{{ comment.user.username }}</strong>
@@ -87,6 +82,11 @@
                             <button class="btn btn-primary" type="submit">Post</button>
                         </div>
                     </form>
+
+                    <!-- Load More Button (Visible if there are more comments) -->
+                    {% if post.comments|length > 5 %}
+                        <button class="btn btn-secondary mt-3" id="load-more-comments" data-post-id="{{ post.id }}">Load More Comments</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -95,13 +95,18 @@
 {% endblock %}
 
 {% block styles %}
-  <!-- Link to the Post-specific Styles (only for pages that need it) -->
   <link href="{{ url_for('static', filename='css/post_styles.css') }}" rel="stylesheet">
+  <style>
+    /* Dark background when modal is open */
+    .modal.fade.show {
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  </style>
 {% endblock %}
 
 {% block scripts %}
-  <!-- Include JavaScript files for handling likes, comments, and saves -->
   <script src="{{ url_for('static', filename='js/like.js') }}"></script>
   <script src="{{ url_for('static', filename='js/save.js') }}"></script>
   <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
 {% endblock %}
+
