@@ -124,12 +124,16 @@ def create_post():
         content = form.content.data
         image = form.image.data
 
-        # Handle image upload for the post
+        # Handle image upload
+        filename = None  # Default to None if no image uploaded
         if image and allowed_file(image.filename):
             filename = secure_filename(image.filename)
-            image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))  # Save the image
-        else:
-            filename = None  # No image uploaded
+            upload_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            try:
+                image.save(upload_path)
+            except Exception as e:
+                flash(f"Error saving image: {e}", "danger")
+                return redirect(url_for('create_post'))
 
         # Create a new post
         new_post = Post(content=content, author=current_user, image=filename)
