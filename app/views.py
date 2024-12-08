@@ -265,4 +265,4 @@ def view_post(post_id):
         )
         db.session.add(comment)
         db.session.commit()
-        return redirect(url_for('view_post', post_id
+        return redirect(url_for('view_post', post_id))
