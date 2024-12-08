@@ -1,59 +1,53 @@
-(flask) [lnnx6136@feng-linux-07 WebApp2]$ flask db migrate -m "pic"
-Error: While importing 'run', an ImportError was raised:
-
+27.0.0.1 - - [08/Dec/2024 00:01:06] "GET /login?next=/ HTTP/1.1" 500 -
 Traceback (most recent call last):
-  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/cli.py", line 245, in locate_app
-    __import__(module_name)
-  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/run.py", line 1, in <module>
-    from app import app
-  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/__init__.py", line 31, in <module>
-    from app import views, models
-  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/views.py", line 6, in <module>
-    from .forms import RegistrationForm, LoginForm, PostForm, EditProfileForm, SearchForm, CommentForm
-  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/forms.py", line 3, in <module>
-    from wtforms.validators import DataRequired, Length, ValidationError, EqualTo, Regexp, FileAllowed
-ImportError: cannot import name 'FileAllowed' from 'wtforms.validators' (/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/wtforms/validators.py)
-
-
-(flask) [lnnx6136@feng-linux-07 WebApp2]$ pip show wtforms
-Name: WTForms
-Version: 3.2.1
-Summary: Form validation and rendering for Python web development.
-Home-page: 
-Author: 
-Author-email: 
-License: Copyright 2008 WTForms
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-1.  Redistributions of source code must retain the above copyright
-    notice, this list of conditions and the following disclaimer.
-
-2.  Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in the
-    documentation and/or other materials provided with the distribution.
-
-3.  Neither the name of the copyright holder nor the names of its
-    contributors may be used to endorse or promote products derived from
-    this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
-TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-Location: /uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages
-Requires: markupsafe
-Required-by: Flask-Admin, Flask-WTF
-(flask) [lnnx6136@feng-linux-07 WebApp2]$ 
-
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 1498, in __call__
+    return self.wsgi_app(environ, start_response)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 1476, in wsgi_app
+    response = self.handle_exception(e)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/views.py", line 49, in login
+    return render_template('login.html', form=form)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+         ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/templates/login.html", line 1, in top-level template code
+    {% extends 'base.html' %}
+  File "/uolstore/home/student_lnxhome01/lnnx6136/WebApp2/app/templates/base.html", line 62, in top-level template code
+    <a class="navbar-brand" href="{{ url_for('home') }}">My App</a>
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'home'. Did you mean 'add_comment' instead?
+127.0.0.1 - - [08/Dec/2024 00:01:06] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+127.0.0.1 - - [08/Dec/2024 00:01:06] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+127.0.0.1 - - [08/Dec/2024 00:01:06] "GET /login?__debugger__=yes&cmd=resource&f=console.png&s=d5T6YfFVppAlpRGYCXKK HTTP/1.1" 200 -
+127.0.0.1 - - [08/Dec/2024 00:01:06] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+127.0.0.1 - - [08/Dec/2024 00:01:13] "GET / HTTP/1.1" 404 -
 
 
