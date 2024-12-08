@@ -1,0 +1,25 @@
+    .search-form {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-form input {
+      display: none;
+      width: 0;
+      transition: width 0.3s;
+    }
+
+    .search-form input:focus {
+      display: inline-block;
+      width: 150px;
+    }
+
+    .search-form i {
+      position: absolute;
+      left: 10px;
+    }
+
+    .search-form input:focus + i {
+      display: none;
+    }
