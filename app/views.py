@@ -149,6 +149,26 @@ def create_post():
 
     return render_template('create_post.html', form=form)
 
+@app.route('/view_post/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def view_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    form = CommentForm()
+
+    if form.validate_on_submit():
+        comment = Comment(
+            content=form.content.data,
+            post_id=post.id,
+            user_id=current_user.id
+        )
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been added!', 'success')
+        return redirect(url_for('view_post', post_id=post.id))
+
+    # Display the post details and comments
+    return render_template('view_post.html', post=post, form=form)
+
 @app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
 def like_post(post_id):
@@ -239,3 +259,25 @@ def search():
 
     return render_template('search.html', query=query, users=users, posts=posts, form=form)
 
+@app.route('/follow_toggle/<int:user_id>', methods=['POST'])
+@login_required
+def follow_toggle(user_id):
+    user = User.query.get_or_404(user_id)
+
+    # Toggle follow/unfollow status
+    if current_user.is_following(user):
+        current_user.unfollow(user)  # Removes the follow relationship
+        follow_state = 'follow'  # Indicating user is now unfollowing
+    else:
+        current_user.follow(user)  # Creates the follow relationship
+        follow_state = 'unfollow'  # Indicating user is now following
+
+    # Commit the changes to the database
+    db.session.commit()
+
+    # Return updated follower and following counts
+    return jsonify({
+        'follow_state': follow_state,
+        'followers_count': user.followers.count(),
+        'following_count': user.following.count()
+    })
