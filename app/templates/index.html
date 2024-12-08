@@ -37,7 +37,7 @@
                         <button class="btn p-0 like-btn" data-post-id="{{ post.id }}">
                             <i class="fa {% if current_user.is_liking(post) %} fa-heart text-danger {% else %} fa-heart-o {% endif %} fa-2x"></i>
                         </button>
-                        <span class="ms-2">{{ post.like_count() }} likes</span>
+                        <span class="ms-2" id="like-count-{{ post.id }}">{{ post.like_count() }} likes</span>
                     </div>
 
                     <div class="d-flex">
