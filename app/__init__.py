@@ -1,4 +1,4 @@
-from flask import Flask, request, session
+from flask import Flask, request, session, render_template
 from flask_admin import Admin
 from flask_babel import Babel
 from flask_sqlalchemy import SQLAlchemy
@@ -26,6 +26,16 @@ migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'  # Set the login view for @login_required
 login_manager.login_message = "Please log in to access this page."
+
+# Error handlers
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()  # Rollback any pending transactions
+    return render_template('500.html'), 500
 
 # Import views and models
 from app import views, models
