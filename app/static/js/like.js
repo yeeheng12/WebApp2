@@ -1,15 +1,25 @@
-$('.like-btn').on('click', function() {
-    const postId = $(this).data('post-id');
-    $.ajax({
-        type: 'POST',
-        url: '/like/' + postId,
-        success: function(response) {
-            if (response.liked) {
-                $(this).find('i').removeClass('fa-heart-o').addClass('fa-heart text-danger');
-            } else {
-                $(this).find('i').removeClass('fa-heart').addClass('fa-heart-o');
+$(document).ready(function () {
+    // Like button click handler
+    $('.like-btn').click(function () {
+        var postId = $(this).data('post-id');
+        var icon = $(this).find('i');
+        $.ajax({
+            url: '/like/' + postId,  // Adjust to your endpoint
+            method: 'POST',
+            success: function (data) {
+                // Toggle the heart icon based on whether it's liked or not
+                if (data.is_liked) {
+                    icon.removeClass('fa-heart-o').addClass('fa-heart text-danger');
+                } else {
+                    icon.removeClass('fa-heart text-danger').addClass('fa-heart-o');
+                }
+
+                // Update the like count
+                $('#like-count-' + postId).text(data.like_count + " likes");
+            },
+            error: function () {
+                alert("There was an error with the like request.");
             }
-            $('#like-count-' + postId).text(response.like_count + ' likes');
-        }
+        });
     });
 });
