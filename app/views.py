@@ -218,3 +218,24 @@ def view_saved_posts():
     # Get all posts saved by the current user
     saved_posts = [save.post for save in current_user.saves]
     return render_template('saved_posts.html', posts=saved_posts)
+
+@app.route('/search', methods=['GET'])
+@login_required
+def search():
+    query = request.args.get('q', '').strip()
+    users = []
+    posts = []
+    form = SearchForm()
+
+    if query:
+        # Search for users by username (case-insensitive)
+        users = User.query.filter(User.username.ilike(f'%{query}%')).all()
+
+        # Search for posts by content or hashtags (case-insensitive)
+        posts = Post.query.filter(
+            (Post.content.ilike(f'%{query}%')) |
+            (Post.content.ilike(f'%#{query}%'))
+        ).all()
+
+    return render_template('search.html', query=query, users=users, posts=posts, form=form)
+
