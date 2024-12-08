@@ -1,3 +1,3 @@
 BuildError
 
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'search'. Did you mean 'static' instead?
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'view_post' with values ['post_id']. Did you mean 'like_post' instead?
