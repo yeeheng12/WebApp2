@@ -1,33 +1,35 @@
-$('#comment-form').on('submit', function(event) {
-    event.preventDefault();
+// Infinite Scroll or Load More for Comments
+document.addEventListener('DOMContentLoaded', function () {
+    const loadMoreButton = document.getElementById('load-more-comments');
+    
+    if (loadMoreButton) {
+        loadMoreButton.addEventListener('click', function(e) {
+            const postId = e.target.dataset.postId;
+            
+            // Fetch more comments for this post
+            fetch(`/load_more_comments/${postId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const commentsContainer = document.getElementById(`comments-container-${postId}`);
+                    data.comments.forEach(comment => {
+                        const commentElement = document.createElement('div');
+                        commentElement.classList.add('d-flex', 'mb-3', 'comment');
+                        commentElement.innerHTML = `
+                            <img src="${comment.avatar}" class="rounded-circle me-3" width="40" height="40" alt="User Avatar">
+                            <div>
+                                <strong>${comment.username}</strong>
+                                <p>${comment.content}</p>
+                                <small class="text-muted">${comment.timestamp}</small>
+                            </div>
+                        `;
+                        commentsContainer.appendChild(commentElement);
+                    });
 
-    var form = $(this);
-    var content = form.find('textarea[name="content"]').val();
-    var postId = form.data('post-id');
-
-    $.ajax({
-        url: '/add_comment/' + postId,
-        method: 'POST',
-        contentType: 'application/json',
-        headers: {
-            'X-CSRFToken': form.find('input[name="csrf_token"]').val()
-        },
-        data: JSON.stringify({ content: content }),
-        success: function(response) {
-            $('#comments-container').append(
-                `<div class="comment">
-                    <strong>${response.user}</strong>
-                    <p>${response.content}</p>
-                    <small>${response.timestamp}</small>
-                </div>`
-            );
-            form.find('textarea[name="content"]').val(''); // Clear input field
-
-            // Update the comment count on the page
-            $('#comment-count-' + postId).text(response.comment_count);  // Update the comment count
-        },
-        error: function(error) {
-            console.error("Error posting comment: ", error);
-        }
-    });
+                    // Hide the Load More button if there are no more comments
+                    if (data.has_more_comments === false) {
+                        e.target.style.display = 'none';
+                    }
+                });
+        });
+    }
 });
