@@ -10,12 +10,14 @@
                 <!-- User Information (Profile Picture and Username) -->
                 <div class="d-flex align-items-center mb-3">
                     <img src="{{ post.author.get_avatar() }}" 
-                        class="rounded-circle me-3" width="50" height="50" alt="{{ post.author.username }}'s Avatar">
+                        class="rounded-circle me-3" width="50" height="50" alt="User Avatar">
                     <div>
+                        <!-- Display the username once, as a clickable link -->
                         <a href="{{ url_for('profile', username=post.author.username) }}" class="text-dark fw-bold">
                             {{ post.author.username }}
                         </a>
                         <br>
+                        <!-- Post date -->
                         <small class="text-muted">{{ post.date_posted.strftime('%b %d, %Y') }}</small>
                     </div>
                 </div>
