@@ -55,6 +55,13 @@ def logout():
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
 
+@app.route('/')
+@login_required
+def home():
+    # Fetch posts from the database
+    posts = Post.query.order_by(Post.date_posted.desc()).all()
+    return render_template('index.html', posts=posts)
+
 @app.route('/profile/<username>')
 @login_required
 def profile(username):
