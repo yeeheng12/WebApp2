@@ -10,8 +10,8 @@ from app import app
 from datetime import datetime
 
 # Set the upload folder paths for user avatars and post images
-app.config['UPLOAD_FOLDER'] = 'static/images/uploads'
-app.config['DEFAULT_AVATAR_FOLDER'] = 'static/images/default'
+app.config['UPLOAD_FOLDER'] = 'app/static/images/uploads'
+app.config['DEFAULT_AVATAR_FOLDER'] = 'app/static/images/default'
 app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'jpeg', 'png'}
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Max file size (16MB)
 
@@ -145,52 +145,9 @@ def create_post():
         db.session.add(new_post)
         db.session.commit()
         flash('Your post has been created!', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
 
     return render_template('create_post.html', form=form)
-
-@app.route('/follow_toggle/<int:user_id>', methods=['POST'])
-@login_required
-def follow_toggle(user_id):
-    user = User.query.get_or_404(user_id)
-
-    # Toggle follow/unfollow status
-    if current_user.is_following(user):
-        current_user.unfollow(user)  # Removes the follow relationship
-        follow_state = 'follow'  # Indicating user is now unfollowing
-    else:
-        current_user.follow(user)  # Creates the follow relationship
-        follow_state = 'unfollow'  # Indicating user is now following
-
-    # Commit the changes to the database
-    db.session.commit()
-
-    # Return updated follower and following counts
-    return jsonify({
-        'follow_state': follow_state,
-        'followers_count': user.followers.count(),
-        'following_count': user.following.count()
-    })
-
-@app.route('/search', methods=['GET'])
-@login_required
-def search():
-    query = request.args.get('q', '').strip()
-    users = []
-    posts = []
-    form = SearchForm()
-
-    if query:
-        # Search for users by username (case-insensitive)
-        users = User.query.filter(User.username.ilike(f'%{query}%')).all()
-
-        # Search for posts by content or hashtags (case-insensitive)
-        posts = Post.query.filter(
-            (Post.content.ilike(f'%{query}%')) | 
-            (Post.content.ilike(f'%#{query}%'))
-        ).all()
-
-    return render_template('search.html', query=query, users=users, posts=posts, form=form)
 
 @app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
@@ -254,22 +211,6 @@ def add_comment(post_id):
         'timestamp': comment.timestamp.strftime('%Y-%m-%d %H:%M'),
         'comment_count': comment_count  # Return the updated comment count
     })
-
-@app.route('/view_post/<int:post_id>', methods=['GET', 'POST'])
-@login_required
-def view_post(post_id):
-    post = Post.query.get_or_404(post_id)
-    form = CommentForm()
-
-    if form.validate_on_submit():
-        comment = Comment(
-            content=form.content.data,
-            post_id=post.id,
-            user_id=current_user.id
-        )
-        db.session.add(comment)
-        db.session.commit()
-        return redirect(url_for('view_post', post_id))
 
 @app.route('/saved_posts', methods=['GET'])
 @login_required
