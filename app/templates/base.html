@@ -34,64 +34,68 @@
     </div>
   </nav>
 
-  <!-- Sidebar -->
-  <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
-      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <ul class="navbar-nav flex-column">
-        <li class="nav-item offcanvas-nav-item">
-          <a class="nav-link text-white" href="{{ url_for('home') }}">
-            <i class="fas fa-home"></i> Home
-          </a>
-        </li>
-        <li class="nav-item offcanvas-nav-item">
-          <a class="nav-link text-white" href="{{ url_for('search') }}">
-            <i class="fas fa-search"></i> Search
-          </a>
-        </li>
-        {% if current_user.is_authenticated %}
-        <li class="nav-item offcanvas-nav-item">
-          <a class="nav-link text-white" href="{{ url_for('create_post') }}">
-            <i class="fas fa-plus-circle"></i> Create
-          </a>
-        </li>
-        <li class="nav-item offcanvas-nav-item">
-          <a class="nav-link text-white" href="{{ url_for('logout') }}">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </a>
-        </li>
-        <form class="d-flex search-form" method="GET" action="{{ url_for('search') }}">
-          <input class="form-control me-2" type="search" name="q" placeholder="Search users..." aria-label="Search">
-          <button class="btn btn-outline-primary" type="submit">Search</button>
-        </form>
-        {% else %}
-        <li class="nav-item offcanvas-nav-item">
-          <a class="nav-link text-white" href="{{ url_for('login') }}">
-            <i class="fas fa-sign-in-alt"></i> Login
-          </a>
-        </li>
-        <li class="nav-item offcanvas-nav-item">
-          <a class="nav-link text-white" href="{{ url_for('register') }}">
-            <i class="fas fa-user-plus"></i> Register
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-
-      <!-- Footer with User Avatar -->
-      {% if current_user.is_authenticated %}
-      <div class="sidebar-footer">
-        <img src="{{ current_user.get_avatar() }}" alt="{{ current_user.username }}'s Avatar">
-        <div class="username">
-          <strong>{{ current_user.username }}</strong>
-        </div>
-      </div>
-      {% endif %}
-    </div>
+<!-- Sidebar -->
+<div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="sidebarLabel">Menu</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
+  <div class="offcanvas-body">
+    <ul class="navbar-nav flex-column">
+      <li class="nav-item offcanvas-nav-item">
+        <a class="nav-link text-white" href="{{ url_for('home') }}">
+          <i class="fas fa-home"></i> Home
+        </a>
+      </li>
+      <li class="nav-item offcanvas-nav-item">
+        <a class="nav-link text-white" href="{{ url_for('search') }}">
+          <i class="fas fa-search"></i> Search
+        </a>
+      </li>
+      {% if current_user.is_authenticated %}
+      <li class="nav-item offcanvas-nav-item">
+        <a class="nav-link text-white" href="{{ url_for('create_post') }}">
+          <i class="fas fa-plus-circle"></i> Create
+        </a>
+      </li>
+      <!-- Added Saved Posts section -->
+      <li class="nav-item offcanvas-nav-item">
+        <a class="nav-link text-white" href="{{ url_for('saved_posts') }}">
+          <i class="fas fa-bookmark"></i> Saved Posts
+        </a>
+      </li>
+      <li class="nav-item offcanvas-nav-item">
+        <a class="nav-link text-white" href="{{ url_for('logout') }}">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </li>
+      
+      {% else %}
+      <li class="nav-item offcanvas-nav-item">
+        <a class="nav-link text-white" href="{{ url_for('login') }}">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </a>
+      </li>
+      <li class="nav-item offcanvas-nav-item">
+        <a class="nav-link text-white" href="{{ url_for('register') }}">
+          <i class="fas fa-user-plus"></i> Register
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+
+    <!-- Footer with User Avatar -->
+    {% if current_user.is_authenticated %}
+    <div class="sidebar-footer">
+      <img src="{{ current_user.get_avatar() }}" alt="{{ current_user.username }}'s Avatar">
+      <div class="username">
+        <strong>{{ current_user.username }}</strong>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
 
   <!-- Content -->
   <div class="content-container">
