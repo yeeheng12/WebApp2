@@ -270,3 +270,10 @@ def view_post(post_id):
         db.session.add(comment)
         db.session.commit()
         return redirect(url_for('view_post', post_id))
+
+@app.route('/saved_posts', methods=['GET'])
+@login_required
+def view_saved_posts():
+    # Get all posts saved by the current user
+    saved_posts = [save.post for save in current_user.saves]
+    return render_template('saved_posts.html', posts=saved_posts)
