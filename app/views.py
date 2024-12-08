@@ -155,6 +155,7 @@ def view_post(post_id):
     post = Post.query.get_or_404(post_id)
     form = CommentForm()
 
+    # Handle the comment form submission
     if form.validate_on_submit():
         comment = Comment(
             content=form.content.data,
@@ -164,10 +165,22 @@ def view_post(post_id):
         db.session.add(comment)
         db.session.commit()
         flash('Your comment has been added!', 'success')
-        return redirect(url_for('view_post', post_id=post.id))
 
-    # Display the post details and comments
-    return render_template('view_post.html', post=post, form=form)
+        # Return updated comment count and comment details as JSON
+        return jsonify({
+            'content': comment.content,
+            'user': comment.user.username,
+            'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+            'comment_count': post.comment_count()
+        })
+    
+    # Render post and comments in the background for modal toggle
+    if request.is_xhr:  # This ensures that the request was made via AJAX
+        comments = post.comments
+        return render_template('comments_modal.html', post=post, comments=comments, form=form)
+
+    return render_template('post.html', post=post, form=form)
+
 
 @app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
