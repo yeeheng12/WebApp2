@@ -124,24 +124,28 @@ def create_post():
         content = form.content.data
         image = form.image.data
 
-        # Handle image upload
-        filename = None  # Default to None if no image uploaded
-        if image and allowed_file(image.filename):
-            filename = secure_filename(image.filename)
-            upload_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            try:
-                image.save(upload_path)
-            except Exception as e:
-                flash(f"Error saving image: {e}", "danger")
-                return redirect(url_for('create_post'))
+        if image:
+            if allowed_file(image.filename):
+                try:
+                    filename = secure_filename(image.filename)
+                    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    image.save(filepath)  # Save the file to the uploads folder
+                    flash(f"Image successfully uploaded to {filepath}", 'success')
+                except Exception as e:
+                    flash(f"Error saving image: {e}", 'danger')
+                    filename = None
+            else:
+                flash("Invalid file type. Only jpg, jpeg, and png are allowed.", 'danger')
+                filename = None
+        else:
+            filename = None
 
-        # Create a new post
+        # Save the post
         new_post = Post(content=content, author=current_user, image=filename)
-        new_post.set_tags()  # Extract and store hashtags
         db.session.add(new_post)
         db.session.commit()
         flash('Your post has been created!', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 
     return render_template('create_post.html', form=form)
 
