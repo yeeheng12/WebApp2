@@ -1,68 +1,29 @@
-/* Card Styling */
-.card {
-    border: none;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+/* Ensure modal comments and buttons align properly */
+.comments-section {
+    max-height: 400px;
+    overflow-y: auto;
 }
 
-.card-body {
-    padding: 15px;
+.comments-section .d-flex {
+    flex-direction: column;
 }
 
-/* User Information */
-.card-body .d-flex img {
-    border-radius: 50%;
-    object-fit: cover;
+.comment-btn, .like-btn, .save-btn {
+    display: flex;
+    align-items: center;
 }
 
-.card-body a {
-    text-decoration: none;
-    font-size: 1rem;
-}
-
-.card-body small {
-    font-size: 0.85rem;
-}
-
-/* Post Content */
-.card-text {
-    font-size: 1rem;
-    margin-bottom: 10px;
-}
-
-/* Like, Save Buttons */
-.like-btn i,
-.save-btn i {
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: #444;
-}
-
-.like-btn i.fa-heart {
-    color: red;
-}
-
-.save-btn i.fa-bookmark {
-    color: #000;
-}
-
-.like-btn, .save-btn {
-    border: none;
-    background: none;
-    padding: 0;
-    margin-right: 10px;
-}
-
-.like-btn:hover i,
-.save-btn:hover i {
-    color: #777;
-}
-
-/* Post Image */
-.card-body img {
+.modal-dialog-centered {
     width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
+    max-width: 600px;
 }
 
+.modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body .comments-section {
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
