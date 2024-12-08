@@ -294,3 +294,28 @@ def follow_toggle(user_id):
         'followers_count': user.followers.count(),
         'following_count': user.following.count()
     })
+
+@app.route('/load_more_comments/<int:post_id>', methods=['GET'])
+@login_required
+def load_more_comments(post_id):
+    post = Post.query.get_or_404(post_id)
+    
+    # Paginate comments (show 5 more per request)
+    page = request.args.get('page', 1, type=int)
+    comments = post.comments.paginate(page, 5, False)
+
+    # Check if there are more comments to load
+    has_more_comments = comments.has_next
+
+    # Prepare data for response
+    comment_data = [{
+        'username': comment.user.username,
+        'content': comment.content,
+        'timestamp': comment.timestamp.strftime('%b %d, %Y %H:%M'),
+        'avatar': comment.user.get_avatar()
+    } for comment in comments.items]
+
+    return jsonify({
+        'comments': comment_data,
+        'has_more_comments': has_more_comments
+    })
