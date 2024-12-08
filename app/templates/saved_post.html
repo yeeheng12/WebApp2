@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Saved Posts</h2>
+    {% for post in posts %}
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center">
+                <img src="{{ post.author.get_avatar() }}" class="rounded-circle me-2" width="40" height="40" alt="Avatar">
+                <a href="{{ url_for('profile', username=post.author.username) }}" class="text-dark">
+                    <strong>{{ post.author.username }}</strong>
+                </a>
+                <span class="ms-auto text-muted">{{ post.date_posted.strftime('%b %d, %Y') }}</span>
+            </div>
+            <div class="card-body">
+                {% if post.image %}
+                <img src="{{ url_for('static', filename='images/uploads/' + post.image) }}" class="img-fluid mb-3" alt="Post Image">
+                {% endif %}
+                <p>{{ post.content }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
