@@ -10,6 +10,7 @@
 ---------comment.js
 ---------save.js
 ------css
+---------sidebar_styles.css
 ---------post_styles.css
 ---templates
 ------base.html
@@ -19,6 +20,8 @@
 ------index.html
 ------profile.html
 ------search.html
+------post.html
+------saved_post.html
 -config.py
 -db_create.py
 -run.py
