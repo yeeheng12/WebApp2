@@ -10,19 +10,24 @@
                 <!-- User Information (Profile Picture and Username) -->
                 <div class="d-flex align-items-center mb-3">
                     <img src="{{ post.author.get_avatar() }}" 
-                        class="rounded-circle" width="40" height="40" alt="{{ post.author.username }}'s Avatar">
-                    <a href="{{ url_for('profile', username=post.author.username) }}" class="ms-2 text-dark">
-                        <strong>{{ post.author.username }}</strong>
-                    </a>
-                    <small class="ms-2 text-muted">{{ post.date_posted.strftime('%b %d, %Y') }}</small>
+                        class="rounded-circle me-3" width="50" height="50" alt="{{ post.author.username }}'s Avatar">
+                    <div>
+                        <a href="{{ url_for('profile', username=post.author.username) }}" class="text-dark fw-bold">
+                            {{ post.author.username }}
+                        </a>
+                        <br>
+                        <small class="text-muted">{{ post.date_posted.strftime('%b %d, %Y') }}</small>
+                    </div>
                 </div>
 
                 <!-- Post Content -->
-                <p class="card-text">{{ post.content }}</p>
+                <p class="card-text mb-3">{{ post.content }}</p>
 
                 <!-- Post Image (Optional) -->
                 {% if post.get_image() %}
-                    <img src="{{ post.get_image() }}" class="img-fluid" alt="Post Image">
+                    <div class="mb-3">
+                        <img src="{{ post.get_image() }}" class="img-fluid rounded" alt="Post Image">
+                    </div>
                 {% endif %}
 
                 <!-- Post Actions -->
