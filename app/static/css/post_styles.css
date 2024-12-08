@@ -1,129 +1,68 @@
-/* Post Card Styling */
+/* Card Styling */
 .card {
     border: none;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for the card */
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    overflow: hidden;
-    padding: 15px; /* Add padding for a cleaner layout */
-    display: flex;
-    flex-direction: column;
 }
 
-/* Post Header Styling (User Info) */
-.card .d-flex.align-items-center {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+.card-body {
+    padding: 15px;
 }
 
-/* User Avatar */
-.card img.rounded-circle {
+/* User Information */
+.card-body .d-flex img {
     border-radius: 50%;
     object-fit: cover;
-    width: 50px; /* Adjust size */
-    height: 50px;
-    margin-right: 10px; /* Add spacing between avatar and username */
 }
 
-/* Username and Date Styling */
-.card a.ms-2.text-dark {
-    font-weight: bold;
-    font-size: 1rem;
+.card-body a {
     text-decoration: none;
-    color: #000;
+    font-size: 1rem;
 }
 
-.card small.text-muted {
+.card-body small {
     font-size: 0.85rem;
-    margin-left: 5px;
-    color: #6c757d;
 }
 
 /* Post Content */
-.card .card-text {
-    margin-top: 10px;
+.card-text {
     font-size: 1rem;
-    line-height: 1.5;
+    margin-bottom: 10px;
 }
 
-/* Post Image Styling */
-.card img.img-fluid {
-    margin-top: 15px;
-    border-radius: 10px; /* Match card styling */
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+/* Like, Save Buttons */
+.like-btn i,
+.save-btn i {
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: #444;
 }
 
-/* Post Actions (Like, Save, Comment) */
-.card .btn {
-    font-size: 0.9rem;
-    padding: 5px 10px;
-    margin: 5px 0;
+.like-btn i.fa-heart {
+    color: red;
 }
 
-.card .fa {
-    margin-right: 5px;
+.save-btn i.fa-bookmark {
+    color: #000;
 }
 
-/* Like and Save Button Styling */
 .like-btn, .save-btn {
-    padding: 6px 12px;
-    border-radius: 50px; /* Rounded buttons */
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
+    border: none;
+    background: none;
+    padding: 0;
+    margin-right: 10px;
 }
 
-.like-btn .fa-heart,
-.save-btn .fa-bookmark {
-    color: #ff4757; /* Highlight color for actions */
+.like-btn:hover i,
+.save-btn:hover i {
+    color: #777;
 }
 
-.like-btn .fa-heart-o,
-.save-btn .fa-bookmark-o {
-    color: #6c757d; /* Default color */
+/* Post Image */
+.card-body img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
 
-/* No Posts Message */
-.no-posts-message {
-    color: #6c757d;
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1.1rem;
-    font-style: italic;
-}
-
-/* Comment Button */
-.card a.btn-light {
-    color: #007bff; /* Highlight comment button */
-    text-decoration: none;
-}
-
-.card a.btn-light:hover {
-    color: #0056b3; /* Darker on hover */
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .card {
-        padding: 10px;
-    }
-
-    .card img.rounded-circle {
-        width: 40px; /* Smaller avatar for mobile */
-        height: 40px;
-    }
-
-    .card a.ms-2.text-dark {
-        font-size: 0.9rem;
-    }
-
-    .card .card-text {
-        font-size: 0.95rem;
-    }
-}
