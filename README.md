@@ -12,6 +12,7 @@
 ------css
 ---------sidebar_styles.css
 ---------post_styles.css
+---------search_styles.css
 ---templates
 ------base.html
 ------login.html
