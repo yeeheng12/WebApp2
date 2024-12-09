@@ -1,15 +1,8 @@
 from flask import Flask, request, session, render_template
-from flask_admin import Admin
-from flask_babel import Babel
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
-
-def get_locale():
-    if request.args.get('lang'):
-        session['lang'] = request.args.get('lang')
-    return session.get('lang', 'en')
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -18,8 +11,6 @@ csrf = CSRFProtect(app)
 
 # Initialize extensions
 db = SQLAlchemy(app)
-babel = Babel(app, locale_selector=get_locale)
-admin = Admin(app, template_mode='bootstrap4')
 migrate = Migrate(app, db)
 
 # Initialize Flask-Login
