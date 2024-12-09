@@ -252,6 +252,12 @@ def view_saved_posts():
     saved_posts = [save.post for save in current_user.saves]
     return render_template('saved_posts.html', posts=saved_posts)
 
+# views.py
+from flask import render_template, request, jsonify
+from flask_login import login_required
+from .models import User, Post
+from .forms import SearchForm
+
 @app.route('/search', methods=['GET'])
 @login_required
 def search():
@@ -270,7 +276,16 @@ def search():
             (Post.content.ilike(f'%#{query}%'))
         ).all()
 
+        # Return search results as JSON (for AJAX call)
+        if request.is_xhr:  # This checks if the request is an AJAX request
+            return jsonify({
+                'users': [{'username': user.username, 'profile_url': url_for('profile', username=user.username)} for user in users],
+                'posts': [{'content': post.content, 'post_url': url_for('view_post', post_id=post.id)} for post in posts]
+            })
+
+    # If it's not an AJAX request, render the template normally
     return render_template('search.html', query=query, users=users, posts=posts, form=form)
+
 
 @app.route('/follow_toggle/<int:user_id>', methods=['POST'])
 @login_required
