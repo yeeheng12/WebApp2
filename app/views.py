@@ -252,15 +252,6 @@ def view_saved_posts():
     saved_posts = [save.post for save in current_user.saves]
     return render_template('saved_posts.html', posts=saved_posts)
 
-# views.py
-from flask import render_template, request, jsonify
-from flask_login import login_required
-from .models import User, Post
-from .forms import SearchForm
-
-from flask import jsonify, request
-from app.models import User, Post
-
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get('q', '').strip().lower()  # Get the search query
