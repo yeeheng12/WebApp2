@@ -258,34 +258,44 @@ from flask_login import login_required
 from .models import User, Post
 from .forms import SearchForm
 
+from flask import jsonify, request
+from app.models import User, Post
+
 @app.route('/search', methods=['GET'])
-@login_required
 def search():
-    query = request.args.get('q', '').strip()
-    users = []
-    posts = []
-    form = SearchForm()
+    query = request.args.get('q', '').strip().lower()  # Get the search query
+    if not query:
+        return jsonify([])  # Return an empty list if no query provided
 
-    if query:
-        # Search for users by username (case-insensitive)
-        users = User.query.filter(User.username.ilike(f'%{query}%')).all()
+    results = []
 
-        # Search for posts by content or hashtags (case-insensitive)
-        posts = Post.query.filter(
-            (Post.content.ilike(f'%{query}%')) |
-            (Post.content.ilike(f'%#{query}%'))
-        ).all()
+    # Check if the query starts with a hashtag
+    if query.startswith('#'):
+        # Search for posts with hashtags matching the query
+        posts = Post.query.filter(Post.tags.ilike(f"%{query[1:]}%")).all()
+        results = [
+            {
+                'type': 'hashtag',
+                'content': f"#{tag}",
+                'post_link': url_for('post', post_id=post.id),
+            }
+            for post in posts
+            for tag in post.get_tags_list() if tag.startswith(query[1:])
+        ]
+    else:
+        # Search users based on the query
+        users = User.query.filter(User.username.ilike(f"%{query}%")).all()
+        results = [
+            {
+                'type': 'user',
+                'username': user.username,
+                'avatar': user.get_avatar(),
+                'profile_link': url_for('profile', username=user.username),
+            }
+            for user in users
+        ]
 
-        # Return search results as JSON (for AJAX call)
-        if request.is_xhr:  # This checks if the request is an AJAX request
-            return jsonify({
-                'users': [{'username': user.username, 'profile_url': url_for('profile', username=user.username)} for user in users],
-                'posts': [{'content': post.content, 'post_url': url_for('view_post', post_id=post.id)} for post in posts]
-            })
-
-    # If it's not an AJAX request, render the template normally
-    return render_template('search.html', query=query, users=users, posts=posts, form=form)
-
+    return jsonify(results)  # Return JSON response
 
 @app.route('/follow_toggle/<int:user_id>', methods=['POST'])
 @login_required
