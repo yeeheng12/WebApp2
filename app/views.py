@@ -43,8 +43,8 @@ def login():
         if user and check_password_hash(user.password_hash, form.password.data):
             remember = form.remember_me.data
             login_user(user, remember=remember)
-            flash("Login successful!", "success")
-            return redirect(url_for('home'))
+            next_page = request.args.get('next')  # Get the "next" URL if available
+            return redirect(next_page or url_for('home'))  # Redirect to "next" or default to home
         flash("Login unsuccessful. Check username and password.", "danger")
     return render_template('login.html', form=form)
 
