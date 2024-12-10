@@ -8,6 +8,7 @@ from .models import User, Post, Comment, Like, Save
 from . import db
 from app import app
 from datetime import datetime
+from PIL import Image
 
 # Set the upload folder paths for user avatars and post images
 app.config['UPLOAD_FOLDER'] = 'app/static/images/uploads'
@@ -22,6 +23,22 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 # Helper function to check allowed file extensions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+# Helper function to resize images
+def resize_image(image_path, sizes):
+    """Resize the image to the specified sizes and save them with suffixes."""
+    base, ext = os.path.splitext(image_path)
+    resized_paths = {}
+
+    with Image.open(image_path) as img:
+        for size, suffix in sizes:
+            resized_img = img.copy()
+            resized_img.thumbnail(size)
+            resized_path = f"{base}_{suffix}{ext}"
+            resized_img.save(resized_path)
+            resized_paths[suffix] = os.path.basename(resized_path)
+
+    return resized_paths
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -124,24 +141,37 @@ def create_post():
         content = form.content.data
         image = form.image.data
 
-        if image:
-            if allowed_file(image.filename):
-                try:
-                    filename = secure_filename(image.filename)
-                    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                    image.save(filepath)  # Save the file to the uploads folder
-                    flash(f"Image successfully uploaded to {filepath}", 'success')
-                except Exception as e:
-                    flash(f"Error saving image: {e}", 'danger')
-                    filename = None
-            else:
-                flash("Invalid file type. Only jpg, jpeg, and png are allowed.", 'danger')
-                filename = None
-        else:
-            filename = None
+        filename = None
+        thumbnail_name = None
+        medium_name = None
+
+        if image and allowed_file(image.filename):
+            try:
+                # Save the original image
+                filename = secure_filename(image.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                image.save(filepath)
+
+                # Resize the image into different sizes
+                sizes = [(150, 'thumbnail'), (800, 'medium')]  # Define sizes
+                resized_paths = resize_image(filepath, sizes)
+
+                # Get resized image names
+                thumbnail_name = resized_paths.get('thumbnail')
+                medium_name = resized_paths.get('medium')
+
+                flash("Image successfully uploaded and resized.", 'success')
+            except Exception as e:
+                flash(f"Error processing image: {e}", 'danger')
 
         # Save the post
-        new_post = Post(content=content, author=current_user, image=filename)
+        new_post = Post(
+            content=content,
+            author=current_user,
+            image_original=filename,  # Original image
+            image_thumbnail=thumbnail_name,  # Thumbnail
+            image_medium=medium_name  # Medium-sized image
+        )
         db.session.add(new_post)
         db.session.commit()
         flash('Your post has been created!', 'success')
@@ -335,3 +365,5 @@ def load_more_comments(post_id):
         'comments': comment_data,
         'has_more_comments': has_more_comments
     })
+
+
