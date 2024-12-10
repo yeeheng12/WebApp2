@@ -1,7 +1,8 @@
+/* Popup container styling */
 .search-popup {
   position: fixed;
   top: 0;
-  right: -100%; /* Hidden by default */
+  right: -100%; /* Initially hidden */
   width: 30%;
   height: 100%;
   background: #fff;
@@ -12,7 +13,7 @@
 }
 
 .search-popup.active {
-  right: 0; /* Show the popup */
+  right: 0; /* Slide in from the right */
 }
 
 .search-popup .popup-header {
@@ -37,4 +38,11 @@
 
 .search-popup .search-results a:hover {
   background: #f8f9fa;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .search-popup {
+    width: 100%; /* Full width on mobile */
+  }
 }
