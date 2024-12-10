@@ -85,15 +85,17 @@
       </ul>
 
       <!-- Footer with User Avatar -->
-      {% if current_user.is_authenticated %}
-      <div class="sidebar-footer">
-        <img src="{{ current_user.get_avatar() or url_for('static', filename='images/default/default_profile.png') }}"
-          alt="{{ current_user.username }}'s Avatar" loading="lazy">
-        <div class="username">
-          <strong>{{ current_user.username }}</strong>
-        </div>
+<!-- Footer with User Avatar -->
+     {% if current_user.is_authenticated %}
+     <div class="sidebar-footer">
+       <a href="{{ url_for('profile', username=current_user.username) }}" class="d-flex align-items-center text-white text-decoration-none">
+         <img src="{{ current_user.get_avatar() or url_for('static', filename='images/default/default_profile.png') }}" alt="{{ current_user.username }}'s Avatar" loading="lazy">
+           <div class="username ms-2">
+             <strong>{{ current_user.username }}</strong>
+           </div>
+        </a>
       </div>
-      {% endif %}
+     {% endif %}
     </div>
   </div>
 
