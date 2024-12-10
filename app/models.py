@@ -46,14 +46,14 @@ class User(db.Model, UserMixin):
         if follow:
             db.session.delete(follow)
 
-    def following_count(self):
-        """Return the number of users the current user is following."""
-        return self.following.count()
-
     def follower_count(self):
         """Return the number of followers the current user has."""
-        return self.followers.count()
+        return self.followers.count() if self.followers else 0
 
+    def following_count(self):
+        """Return the number of users the current user is following."""
+        return self.following.count() if self.following else 0
+        
     def post_count(self):
         """Returns the number of posts created by the user."""
         return self.posts.count()
