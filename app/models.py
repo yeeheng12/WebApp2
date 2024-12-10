@@ -40,22 +40,23 @@ class User(db.Model, UserMixin):
             follow = Follow(follower_id=self.id, followed_id=user.id)
             db.session.add(follow)
 
-    def following_count(self):
-        return self.following.count();
-
     def unfollow(self, user):
         """Unfollow another user."""
         follow = Follow.query.filter_by(follower_id=self.id, followed_id=user.id).first()
         if follow:
             db.session.delete(follow)
 
+    def following_count(self):
+        """Return the number of users the current user is following."""
+        return self.following.count()
+
     def follower_count(self):
-        """Count of followers."""
-        return Follow.query.filter_by(followed_id=self.id).count()
+        """Return the number of followers the current user has."""
+        return self.followers.count()
 
     def post_count(self):
         """Returns the number of posts created by the user."""
-        return Post.query.filter_by(user_id=self.id).count()
+        return self.posts.count()
 
     def is_liking(self, post):
         """Check if the current user has liked a specific post."""
@@ -112,11 +113,11 @@ class Post(db.Model):
 
     def like_count(self):
         """Return the number of likes on this post. Optimized for efficiency."""
-        return self.liked_by.count()  # Using count() for better performance over len()
+        return self.liked_by.count()
 
     def save_count(self):
         """Return the number of saves on this post. Optimized for efficiency."""
-        return self.saved_by.count()  # Using count() for better performance over len()
+        return self.saved_by.count()
 
     def comment_count(self):
         """Return the number of comments on this post."""
@@ -124,43 +125,42 @@ class Post(db.Model):
 
     def get_image(self, size="original"):
         """Return the path to the post image based on the requested size."""
-        if size == "thumbnail":
+        if size == "thumbnail" and self.image_thumbnail:
             return url_for('static', filename=f'images/uploads/{self.image_thumbnail}')
-        elif size == "medium":
+        elif size == "medium" and self.image_medium:
             return url_for('static', filename=f'images/uploads/{self.image_medium}')
-        elif size == "original":
+        elif size == "original" and self.image_original:
             return url_for('static', filename=f'images/uploads/{self.image_original}')
-        return None  # No image available for the post
+        return url_for('static', filename='images/default/no_image.png')  # Default image if none exists
 
 class Follow(db.Model):
     follower_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     followed_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    __table_args__ = (db.Index('ix_follow_follower_followed', 'follower_id', 'followed_id'),)  # Added composite index
+    __table_args__ = (db.Index('ix_follow_follower_followed', 'follower_id', 'followed_id'),)
 
 class Like(db.Model):
     __tablename__ = 'likes'
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True, index=True)  # Added index
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, index=True)  # Added index
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, index=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    __table_args__ = (db.Index('ix_likes_post_user', 'post_id', 'user_id'),)  # Added composite index
+    __table_args__ = (db.Index('ix_likes_post_user', 'post_id', 'user_id'),)
 
 class Save(db.Model):
     __tablename__ = 'saves'
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True, index=True)  # Added index
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, index=True)  # Added index
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), primary_key=True, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, index=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    __table_args__ = (db.Index('ix_saves_post_user', 'post_id', 'user_id'),)  # Added composite index
+    __table_args__ = (db.Index('ix_saves_post_user', 'post_id', 'user_id'),)
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False, index=True)  # Added index
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)  # Added index
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
 
     user = db.relationship('User', backref='comments', lazy=True)
-
