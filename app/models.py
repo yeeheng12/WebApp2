@@ -91,10 +91,7 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     tags = db.Column(db.String(255), nullable=True)  # Store hashtags as a comma-separated string
     image_original = db.Column(db.String(120), nullable=True)  # Original image
-    image_thumbnail = db.Column(db.String(120), nullable=True)  # Thumbnail image
-    image_medium = db.Column(db.String(120), nullable=True)  # Medium-sized image
 
-    # Explicit relationships for likes, saves, and comments
     liked_by = db.relationship('Like', backref='post', lazy='dynamic')
     saved_by = db.relationship('Save', backref='post', lazy='dynamic')
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
@@ -123,13 +120,9 @@ class Post(db.Model):
         """Return the number of comments on this post."""
         return self.comments.count()
 
-    def get_image(self, size="original"):
-        """Return the path to the post image based on the requested size."""
-        if size == "thumbnail" and self.image_thumbnail:
-            return url_for('static', filename=f'images/uploads/{self.image_thumbnail}')
-        elif size == "medium" and self.image_medium:
-            return url_for('static', filename=f'images/uploads/{self.image_medium}')
-        elif size == "original" and self.image_original:
+    def get_image(self):
+        """Return the path to the post image."""
+        if self.image_original:
             return url_for('static', filename=f'images/uploads/{self.image_original}')
         return url_for('static', filename='images/default/no_image.png')  # Default image if none exists
 
