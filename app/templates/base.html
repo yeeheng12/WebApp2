@@ -43,7 +43,16 @@
       {% endif %}
     </div>
   </nav>
-
+  
+  {% if current_user.is_authenticated %}
+  <div id="search-popup" class="search-popup">
+    <div class="popup-header">
+      Search Results
+    </div>
+    <div id="popup-results" class="search-results"></div>
+  </div>
+  {% endif %}
+  
   <!-- Sidebar -->
   <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarLabel" role="menu">
     <div class="offcanvas-header">
