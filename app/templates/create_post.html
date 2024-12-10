@@ -9,13 +9,13 @@
             <!-- Post Content Field -->
             <div class="form-group mb-3">
                 {{ form.content.label(class="form-label") }}
-                {{ form.content(class="form-control", placeholder="What's on your mind?") }}
+                {{ form.content(class="form-control", placeholder="What's on your mind?", required=True) }}
             </div>
 
             <!-- Image Upload Field -->
             <div class="form-group mb-3">
                 {{ form.image.label(class="form-label") }}
-                {{ form.image(class="form-control") }}
+                {{ form.image(class="form-control", required=True) }}
                 <!-- Display validation errors for image upload -->
                 {% if form.image.errors %}
                     <ul class="errors">
