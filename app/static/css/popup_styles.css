@@ -1,0 +1,40 @@
+.search-popup {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Hidden by default */
+  width: 30%;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 1050;
+  overflow-y: auto;
+  transition: right 0.3s ease-in-out;
+}
+
+.search-popup.active {
+  right: 0; /* Show the popup */
+}
+
+.search-popup .popup-header {
+  background: #343a40;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.search-popup .search-results {
+  padding: 1rem;
+}
+
+.search-popup .search-results a {
+  display: block;
+  padding: 0.5rem;
+  color: #000;
+  text-decoration: none;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.search-popup .search-results a:hover {
+  background: #f8f9fa;
+}
