@@ -12,30 +12,38 @@
         <p>{{ user.description }}</p>
 
         <h3>Posts</h3>
-        {% for post in posts %}
-            <div class="post" id="post-{{ post.id }}">
-                <p>{{ post.content }}</p>
+        {% if posts %}
+            {% for post in posts %}
+            <div class="post card mb-4" id="post-{{ post.id }}">
+                <div class="card-body">
+                    <p>{{ post.content }}</p>
 
-                <!-- Display post image if it exists -->
-                {% if post.get_image() %}
-                    <div class="post-image">
-                        <img src="{{ post.get_image() }}" alt="Post Image" class="img-fluid">
+                    <!-- Display post image if it exists -->
+                    {% if post.get_image("thumbnail") %}
+                        <div class="post-image mb-3">
+                            <img src="{{ post.get_image('thumbnail') }}" alt="Post Image" class="img-fluid rounded">
+                        </div>
+                    {% endif %}
+
+                    <div class="actions">
+                        <!-- Like button and like count -->
+                        <button class="like-btn btn btn-sm btn-outline-primary" data-post-id="{{ post.id }}">
+                            <i class="fa {{ 'fa-heart' if current_user.is_liking(post) else 'fa-heart-o' }}"></i>
+                        </button>
+                        <span id="like-count-{{ post.id }}">{{ post.like_count() }}</span> likes
+
+                        <!-- Comment button and comment count -->
+                        <button class="comment-btn btn btn-sm btn-outline-secondary" data-post-id="{{ post.id }}">
+                            <i class="fa fa-comment-o"></i> Comment
+                        </button>
+                        <span id="comment-count-{{ post.id }}">{{ post.comment_count() }}</span> comments
                     </div>
-                {% endif %}
-
-                <div class="actions">
-                    <!-- Like button and like count -->
-                    <button class="like-btn" data-post-id="{{ post.id }}">
-                        <i class="fa {{ 'fa-heart' if post.is_liking(current_user) else 'fa-heart-o' }}"></i>
-                    </button>
-                    <span id="like-count-{{ post.id }}">{{ post.like_count() }}</span> likes
-
-                    <!-- Comment button and comment count -->
-                    <button class="comment-btn" data-post-id="{{ post.id }}">Comment</button>
-                    <span id="comment-count-{{ post.id }}">{{ post.comment_count() }}</span> comments
                 </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p>No posts to display.</p>
+        {% endif %}
     </div>
 {% endblock %}
 
