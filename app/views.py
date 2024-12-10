@@ -24,22 +24,6 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-# Helper function to resize images
-def resize_image(image_path, sizes):
-    """Resize the image to the specified sizes and save them with suffixes."""
-    base, ext = os.path.splitext(image_path)
-    resized_paths = {}
-
-    with Image.open(image_path) as img:
-        for size, suffix in sizes:
-            resized_img = img.copy()
-            resized_img.thumbnail(size)
-            resized_path = f"{base}_{suffix}{ext}"
-            resized_img.save(resized_path)
-            resized_paths[suffix] = os.path.basename(resized_path)
-
-    return resized_paths
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -133,52 +117,6 @@ def edit_profile():
     flash('Error updating profile. Please try again.', 'danger')
     return redirect(url_for('profile', username=current_user.username, edit=1))
 
-@app.route('/create_post', methods=['GET', 'POST'])
-@login_required
-def create_post():
-    form = PostForm()
-    if form.validate_on_submit():
-        content = form.content.data
-        image = form.image.data
-
-        filename = None
-        thumbnail_name = None
-        medium_name = None
-
-        if image and allowed_file(image.filename):
-            try:
-                # Save the original image
-                filename = secure_filename(image.filename)
-                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                image.save(filepath)
-
-                # Resize the image into different sizes
-                sizes = [((150, 150), 'thumbnail'), ((800, 800), 'medium')]  # Correct size tuples
-                resized_paths = resize_image(filepath, sizes)
-
-                # Get resized image names
-                thumbnail_name = resized_paths.get('thumbnail')
-                medium_name = resized_paths.get('medium')
-
-                flash("Image successfully uploaded and resized.", 'success')
-            except Exception as e:
-                flash(f"Error processing image: {e}", 'danger')
-
-        # Save the post
-        new_post = Post(
-            content=content,
-            author=current_user,
-            image_original=filename,  # Original image
-            image_thumbnail=thumbnail_name,  # Thumbnail
-            image_medium=medium_name  # Medium-sized image
-        )
-        db.session.add(new_post)
-        db.session.commit()
-        flash('Your post has been created!', 'success')
-        return redirect(url_for('home'))
-
-    return render_template('create_post.html', form=form)
-
 @app.route('/view_post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
 def view_post(post_id):
@@ -211,6 +149,38 @@ def view_post(post_id):
 
     return render_template('post.html', post=post, form=form)
 
+@app.route('/create_post', methods=['GET', 'POST'])
+@login_required
+def create_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        content = form.content.data
+        image = form.image.data
+
+        filename = None
+        if image and allowed_file(image.filename):
+            try:
+                # Save the original image
+                filename = secure_filename(image.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                image.save(filepath)
+
+                flash("Image successfully uploaded.", 'success')
+            except Exception as e:
+                flash(f"Error processing image: {e}", 'danger')
+
+        # Save the post
+        new_post = Post(
+            content=content,
+            author=current_user,
+            image_original=filename  # Save the original image path
+        )
+        db.session.add(new_post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+
+    return render_template('create_post.html', form=form)
 
 @app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
