@@ -1,4 +1,3 @@
-/* Ensure modal comments and buttons align properly */
 .comments-section {
     max-height: 400px;
     overflow-y: auto;
@@ -8,39 +7,37 @@
     flex-direction: column;
 }
 
+/* Button styles */
 .comment-btn, .like-btn, .save-btn {
     display: flex;
     align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
+.comment-btn:hover, .like-btn:hover, .save-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Modal styling */
 .modal-dialog-centered {
     width: 100%;
     max-width: 600px;
 }
 
 .modal-body {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-}
-/* Global style for responsive images */
-.responsive-image-container {
-  aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
-  width: 100%; /* Ensure full width */
-  overflow: hidden; /* Crop overflow */
-}
-
-.responsive-image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Crop and center the image */
-}
-
-/* Center align modal content */
-.modal-body {
-  padding: 20px;
-  background-color: #f8f9fa; /* Light gray background */
-  border-radius: 10px; /* Optional rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .modal-body .comments-section {
@@ -48,87 +45,87 @@
     margin-bottom: 10px;
 }
 
-/* Responsive grid for displaying posts */
+/* Global style for responsive images */
+.responsive-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+    overflow: hidden;
+    background-color: #f0f0f0; /* Optional: a background color */
+}
+
+.responsive-image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.responsive-image-container img:hover {
+    transform: scale(1.05); /* Hover zoom effect */
+}
+
+/* Grid layout for posts */
 .post-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
 }
 
 .post-grid .post-item {
-  overflow: hidden;
-  border-radius: 10px; /* Rounded corners */
-}
-
-/* Image hover effect */
-.responsive-image-container img:hover {
-  transform: scale(1.05); /* Slight zoom effect */
-  transition: transform 0.3s ease;
+    overflow: hidden;
+    border-radius: 10px;
 }
 
 /* Lazy loading placeholder */
 .lazyload-placeholder {
-  background-color: #e0e0e0; /* Light gray background */
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    background-color: #e0e0e0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .lazyload-placeholder::before {
-  content: 'Loading...'; /* Placeholder text */
-  font-size: 0.9rem;
-  color: #999;
+    content: 'Loading...';
+    font-size: 0.9rem;
+    color: #999;
 }
 
-/* Improve button styling */
-.comment-btn, .like-btn, .save-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.comment-btn:hover, .like-btn:hover, .save-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Comments layout in the modal */
+/* Comments layout */
 .comments-section .comment-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .comments-section .comment-item img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%; /* Circular avatar */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
 .comments-section .comment-text {
-  font-size: 0.9rem;
-  color: #333;
+    font-size: 0.9rem;
+    color: #333;
 }
 
 /* Empty state for posts */
 .empty-post-placeholder {
-  text-align: center;
-  color: #777;
-  font-size: 1.2rem;
-  margin: 20px 0;
+    text-align: center;
+    color: #777;
+    font-size: 1.2rem;
+    margin: 20px 0;
 }
 
 .empty-post-placeholder i {
-  font-size: 2rem;
-  margin-bottom: 10px;
-  display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
 }
 
