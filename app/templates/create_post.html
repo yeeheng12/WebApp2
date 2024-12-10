@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
+    <div class="container mt-4">
         <h2>Create Post</h2>
         <form method="POST" action="{{ url_for('create_post') }}" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             
             <!-- Post Content Field -->
-            <div class="form-group">
-                {{ form.content.label }}
+            <div class="form-group mb-3">
+                {{ form.content.label(class="form-label") }}
                 {{ form.content(class="form-control", placeholder="What's on your mind?") }}
             </div>
 
             <!-- Image Upload Field -->
-            <div class="form-group">
-                {{ form.image.label }}
+            <div class="form-group mb-3">
+                {{ form.image.label(class="form-label") }}
                 {{ form.image(class="form-control") }}
                 <!-- Display validation errors for image upload -->
                 {% if form.image.errors %}
@@ -24,6 +24,7 @@
                         {% endfor %}
                     </ul>
                 {% endif %}
+                <small class="form-text text-muted">Allowed formats: JPG, JPEG, PNG. Max size: 16MB.</small>
             </div>
 
             <!-- Submit Button -->
@@ -31,3 +32,4 @@
         </form>
     </div>
 {% endblock %}
+
