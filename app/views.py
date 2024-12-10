@@ -157,30 +157,30 @@ def create_post():
         content = form.content.data
         image = form.image.data
 
-        filename = None
-        if image and allowed_file(image.filename):
-            try:
-                # Save the original image
-                filename = secure_filename(image.filename)
-                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                image.save(filepath)
+        # Validate that an image is provided
+        if not image or not allowed_file(image.filename):
+            flash('You must upload a valid image to create a post.', 'danger')
+            return render_template('create_post.html', form=form)
 
-                flash("Image successfully uploaded.", 'success')
-            except Exception as e:
-                flash(f"Error processing image: {e}", 'danger')
+        try:
+            # Save the image
+            filename = secure_filename(image.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            image.save(filepath)
+            
+            # Save the post
+            new_post = Post(content=content, author=current_user, image_original=filename)
+            db.session.add(new_post)
+            db.session.commit()
 
-        # Save the post
-        new_post = Post(
-            content=content,
-            author=current_user,
-            image_original=filename  # Save the original image path
-        )
-        db.session.add(new_post)
-        db.session.commit()
-        flash('Your post has been created!', 'success')
-        return redirect(url_for('home'))
+            flash('Your post has been created!', 'success')
+            return redirect(url_for('home'))
+        except Exception as e:
+            flash(f'An error occurred while saving the post: {e}', 'danger')
+            return render_template('create_post.html', form=form)
 
     return render_template('create_post.html', form=form)
+
 
 @app.route('/like/<int:post_id>', methods=['POST'])
 @login_required
