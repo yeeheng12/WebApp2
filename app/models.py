@@ -40,6 +40,9 @@ class User(db.Model, UserMixin):
             follow = Follow(follower_id=self.id, followed_id=user.id)
             db.session.add(follow)
 
+    def following_count(self):
+        return self.following.count();
+
     def unfollow(self, user):
         """Unfollow another user."""
         follow = Follow.query.filter_by(follower_id=self.id, followed_id=user.id).first()
