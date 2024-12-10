@@ -49,3 +49,15 @@
 .search-form {
   margin-top: 10px;
 }
+/* Global style for responsive images */
+.responsive-image-container {
+  aspect-ratio: 1 / 1; /* Maintain square aspect ratio */
+  width: 100%; /* Ensure full width */
+  overflow: hidden; /* Crop overflow */
+}
+
+.responsive-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Crop and center the image */
+}
