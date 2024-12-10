@@ -1,22 +1,32 @@
- 500 -
+(flask) [lnnx6136@uol-pc-055421 WebApp2]$ flask run 
+ * Serving Flask app 'run.py'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 196-752-086
+127.0.0.1 - - [10/Dec/2024 21:51:43] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/css/sidebar_styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/js/lazyload.js HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/css/popup_styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/js/search.js HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/css/search_styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /favicon.ico HTTP/1.1" 500 -
 Traceback (most recent call last):
   File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 880, in full_dispatch_request
     rv = self.dispatch_request()
          ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 865, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 270, in <lambda>
-    view_func=lambda **kw: self_ref().send_static_file(**kw),  # type: ignore # noqa: B950
-                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 318, in send_static_file
-    return send_from_directory(
-           ^^^^^^^^^^^^^^^^^^^^
-  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/helpers.py", line 552, in send_from_directory
-    return werkzeug.utils.send_from_directory(  # type: ignore[return-value]
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/werkzeug/utils.py", line 575, in send_from_directory
-    raise NotFound()
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 854, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 463, in raise_routing_exception
+    raise request.routing_exception  # type: ignore[misc]
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/ctx.py", line 362, in match_request
+    result = self.url_adapter.match(return_rule=True)  # type: ignore
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/werkzeug/routing/map.py", line 629, in match
+    raise NotFound() from None
 werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
 
 During handling of the above exception, another exception occurred:
@@ -64,4 +74,4 @@ Traceback (most recent call last):
   File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/templating.py", line 99, in _get_source_fast
     raise TemplateNotFound(template)
 jinja2.exceptions.TemplateNotFound: 404.html
-127.0.0.1 - - [10/Dec/2024 14:04:36] "GET /search?q=f HTTP/1.1" 200 -
+
