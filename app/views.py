@@ -153,7 +153,7 @@ def create_post():
                 image.save(filepath)
 
                 # Resize the image into different sizes
-                sizes = [(150, 'thumbnail'), (800, 'medium')]  # Define sizes
+                sizes = [((150, 150), 'thumbnail'), ((800, 800), 'medium')]  # Correct size tuples
                 resized_paths = resize_image(filepath, sizes)
 
                 # Get resized image names
