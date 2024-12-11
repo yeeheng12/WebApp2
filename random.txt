@@ -1,4 +1,4 @@
-(flask) [lnnx6136@uol-pc-055421 WebApp2]$ flask run 
+flask) [lnnx6136@uol-pc-055421 WebApp2]$ flask run
  * Serving Flask app 'run.py'
  * Debug mode: on
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
@@ -7,13 +7,19 @@ Press CTRL+C to quit
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 196-752-086
-127.0.0.1 - - [10/Dec/2024 21:51:43] "GET / HTTP/1.1" 200 -
-127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/css/sidebar_styles.css HTTP/1.1" 200 -
-127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/js/lazyload.js HTTP/1.1" 200 -
-127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/css/popup_styles.css HTTP/1.1" 200 -
-127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/js/search.js HTTP/1.1" 200 -
-127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /static/css/search_styles.css HTTP/1.1" 200 -
-127.0.0.1 - - [10/Dec/2024 21:51:43] "GET /favicon.ico HTTP/1.1" 500 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/css/search_styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/css/sidebar_styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/css/popup_styles.css HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/js/search.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/js/lazyload.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/images/uploads/1_s84Ri245Oc1qYf2ER-GRaA.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/images/uploads/hq720.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/images/uploads/images.png HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/images/uploads/FW02oQlXwAA64DV.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/images/uploads/images.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /static/images/default/default_profile.png HTTP/1.1" 200 -
+127.0.0.1 - - [11/Dec/2024 00:17:39] "GET /favicon.ico HTTP/1.1" 500 -
 Traceback (most recent call last):
   File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/app.py", line 880, in full_dispatch_request
     rv = self.dispatch_request()
@@ -74,6 +80,3 @@ Traceback (most recent call last):
   File "/uolstore/home/student_lnxhome01/lnnx6136/flask/lib/python3.12/site-packages/flask/templating.py", line 99, in _get_source_fast
     raise TemplateNotFound(template)
 jinja2.exceptions.TemplateNotFound: 404.html
-
-
-Error processing image: 'int' object is not iterable Your post has been created!
