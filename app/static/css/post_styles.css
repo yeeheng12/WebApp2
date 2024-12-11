@@ -1,3 +1,4 @@
+/* Comments Section */
 .comments-section {
     max-height: 400px;
     overflow-y: auto;
@@ -7,7 +8,7 @@
     flex-direction: column;
 }
 
-/* Button styles */
+/* Button Styles */
 .comment-btn, .like-btn, .save-btn {
     display: flex;
     align-items: center;
@@ -25,7 +26,7 @@
     background-color: #0056b3;
 }
 
-/* Modal styling */
+/* Modal Styling */
 .modal-dialog-centered {
     width: 100%;
     max-width: 600px;
@@ -45,13 +46,13 @@
     margin-bottom: 10px;
 }
 
-/* Global style for responsive images */
+/* Responsive Image Container */
 .responsive-image-container {
     position: relative;
     width: 100%;
-    padding-top: 56.25%; /* 16:9 aspect ratio */
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
     overflow: hidden;
-    background-color: #f0f0f0; /* Optional: a background color */
+    background-color: #f0f0f0; /* Optional: Background Color */
 }
 
 .responsive-image-container img {
@@ -66,10 +67,10 @@
 }
 
 .responsive-image-container img:hover {
-    transform: scale(1.05); /* Hover zoom effect */
+    transform: scale(1.05); /* Hover Zoom Effect */
 }
 
-/* Grid layout for posts */
+/* Grid Layout for Posts */
 .post-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -81,7 +82,7 @@
     border-radius: 10px;
 }
 
-/* Lazy loading placeholder */
+/* Lazy Loading Placeholder */
 .lazyload-placeholder {
     background-color: #e0e0e0;
     width: 100%;
@@ -97,7 +98,7 @@
     color: #999;
 }
 
-/* Comments layout */
+/* Comments Layout */
 .comments-section .comment-item {
     display: flex;
     align-items: flex-start;
@@ -115,7 +116,7 @@
     color: #333;
 }
 
-/* Empty state for posts */
+/* Empty State for Posts */
 .empty-post-placeholder {
     text-align: center;
     color: #777;
