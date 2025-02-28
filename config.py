@@ -13,9 +13,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'app.db'))
 SQLALCHEMY_TRACK_MODIFICATIONS = False  # Prevent unnecessary overhead
 
-# Preferred URL scheme
-PREFERRED_URL_SCHEME = 'https'  # Use HTTPS for URL generation in production
-
 # File Upload Settings
 UPLOAD_FOLDER = os.path.join(basedir, 'app/static/images/uploads')  # Directory for uploaded files
 ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}  # Allowed file extensions
