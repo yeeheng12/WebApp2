@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 
+#lkdsjaflkjf
+
 # Initialize Flask app
 app = Flask(__name__)
 app.config.from_object('config')  # Load configurations from config.py
