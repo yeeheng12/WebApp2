@@ -6,6 +6,8 @@ from flask_wtf.csrf import CSRFProtect
 
 #lkdsjaflkjf
 
+
+##lafdksghj; skfjqwre gq
 # Initialize Flask app
 app = Flask(__name__)
 app.config.from_object('config')  # Load configurations from config.py
