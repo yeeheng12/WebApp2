@@ -1,4 +1,4 @@
-# OrbitFeed
+# ChatterSphere 
 
 A photo-sharing social media web application built with **Flask**, **SQLAlchemy** and **Bootstrap 5**.
 Users register, publish image posts, follow each other, like / save / comment on posts, and find people through a live search popup.
