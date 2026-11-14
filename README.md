@@ -39,7 +39,7 @@ User ──< Post ──< Comment
 ## Project Structure
 
 ```
-OrbitFeed/
+ChatterSphere/
 ├── run.py                  # Entry point
 ├── config.py               # Security, database and upload settings
 ├── db_create.py            # Table-creation helper (see Setup)
